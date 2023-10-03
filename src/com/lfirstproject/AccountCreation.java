@@ -4,21 +4,26 @@ import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AccountCreation {
     private  String usermail,phonenumber,location;
+    private List<Long> reservationList;
 
     public AccountCreation()
     {
 
     }
-    public AccountCreation(String usermail,String phonenumber,String location)
+    public AccountCreation(List<Long> reservationList,String usermail,String phonenumber,String location)
     {
        this.usermail=usermail;
        this.phonenumber=phonenumber;
        this.location=location;
+       this.reservationList=reservationList;
+
     }
 
     public String getUsermail() {
@@ -46,6 +51,19 @@ public class AccountCreation {
         this.location=location;
     }
     Scanner sc= new Scanner(System.in);
+
+
+    public List<Long> getReservationList()
+    {
+
+        return reservationList;
+    }
+
+    public void setReservationList(List<Long> reservationList) {
+
+       this.reservationList=reservationList;
+    }
+
     public void getData()
     {
         System.out.println("Please enter your email");
@@ -63,7 +81,10 @@ public class AccountCreation {
         System.out.println("Please enter your Location");
         location = sc.next();
     }
-    ArrayList<String> reservation=new ArrayList<>();
+
+
+
+
 
     public void saveToJson(String filename)
     {
@@ -72,7 +93,7 @@ public class AccountCreation {
         jsonobject.put("usermail",getUsermail());
         jsonobject.put("phonenumber",getPhonenumber());
         jsonobject.put("location",getLocation());
-        jsonobject.put("reservations",reservation);
+        jsonobject.put("reservations",getReservationList());
         try(FileWriter fileWriter=new FileWriter(filename))
         {
             fileWriter.write(jsonobject.toString());
